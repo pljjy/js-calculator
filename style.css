@@ -50,10 +50,12 @@ body {
   align-self: end;
 }
 
-#last-value{
+.last-container{
   align-self: flex-start;
   margin-top: 5px;
   opacity: 0.6;
+  display: flex;
+  justify-content: end;
 }
 
 .buttons-container {

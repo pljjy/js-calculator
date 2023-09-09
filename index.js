@@ -1,6 +1,4 @@
 import {
-  intToArray,// REMOVE
-  arrayToInt,// THESE TWO   
   btnNums,
   btnAdd,
   btnSub,
@@ -11,107 +9,96 @@ import {
   btnEquals,
   currentValue,
   lastValue,
+  lastOperation,
+
 } from "./constants.js";
-
-/*
-=================================================
-
-TODO: remove the whole array - int system, instead use
-jsut integers, add some methods to ./constants.js
-
-=================================================
-*/
-
 // btnNums[0] = btn with 0 as text 🫠
-var currentArray = [];
-var lastArray = [];
-var operation;
+
 
 // FUNCTIONS
-function refreshScreen() {
-  currentValue.textContent = arrayToInt(currentArray);
-  lastValue.textContent = arrayToInt(lastArray);
-}
-
-function concatToCurrentArray(value) {
-  if (currentArray.length >= 13 || value === null) return;
-  currentArray.push(value);
-  currentValue.textContent = arrayToInt(currentArray);
-}
-
-function clearValues() {
-  currentArray = [];
-  lastArray = [];
-  operation = "";
-  refreshScreen();
+function concatToCurrentValue(value) {
+  if (value > 12 || value === null) return;
+  currentValue.textContent += value;
 }
 
 function deleteLastSymbol() {
-  if (currentArray.length <= 1) {
-    currentArray = [];
+  if (currentValue.textContent.length == 1) {
     currentValue.textContent = "";
-  } else {
-    currentArray.pop();
-    currentValue.textContent = arrayToInt(currentArray);
   }
+  else {
+    currentValue.textContent = currentValue.textContent.substring(0, currentValue.textContent.length - 1);
+  }
+}
+
+function clearValues() {
+  lastValue.textContent = "";
+  lastOperation.textContent = "";
+  currentValue.textContent = "";
+}
+
+function keyboardListener(event) {
+  console.log(`${event.key}, ${!isNaN(event.key)}`);
+  if (!isNaN(event.key)) concatToCurrentValue(event.key);
+  if (event.key === "Escape") clearValues();
+  if (event.key === "Backspace") deleteLastSymbol();
+  if (event.key === "Enter") equals();
+  if (event.key === "+") add();
+  if (event.key === "-") sub();
+  if (event.key === "*") multiply();
+  if (event.key === "/") divide();
 }
 
 function equals() {
-  let value1 = arrayToInt(lastArray);
-  let value2 = arrayToInt(currentArray);
+  let val1 = parseInt(lastValue.textContent);
+  let val2 = parseInt(currentValue.textContent)
   let result;
 
-  switch (operation) {
-    case "add":
-      result = value1 + value2;
+  switch (lastOperation.textContent) {
+    case "+": result = val1 + val2;
       break;
-    case "sub":
-      result = value1 - value2;
+    case "-": result = val1 - val2;
       break;
-    case "multiply":
-      result = value1 * value2;
+    case "*": result = val1 * val2;
       break;
-    case "divide":
-      result = value1 / value2;
+    case "/": result = val1 / val2;
       break;
-    default: // if this happens, check assigned value to [operation] in operation functions
-      lastArray = [];
-      refreshScreen();
+    default:
       currentValue.textContent = "3RR0R!";
+      lastOperation.textContent = "";
+      lastValue.textContent = "";
       return;
   }
-  currentArray = intToArray(result);
-  lastArray = intToArray(value2);
-  refreshScreen();
+  result = parseFloat(result).toFixed(2);
+  lastValue.textContent = val2;
+  currentValue.textContent = result;
+}
+
+function performOperation(operation) {
+  lastValue.textContent = currentValue.textContent;
+  lastOperation.textContent = operation;
+  currentValue.textContent = "";
 }
 
 function add() {
-  performOperation("add");
+  performOperation("+");
 }
 
 function sub() {
-  performOperation("sub");
+  performOperation("-");
 }
 
 function multiply() {
-  performOperation("multiply");
+  performOperation("*");
 }
 
 function divide() {
-  performOperation("divide");
-}
-
-function performOperation(str) {
-  operation = str;
-  lastArray = currentArray;
-  currentArray = [];
-  refreshScreen();
+  performOperation("/");
 }
 
 // EVENT LISTENERS
 btnNums.forEach((element) => {
   element.addEventListener("click", () =>
-    concatToCurrentArray(element.textContent)
+    concatToCurrentValue(element.textContent)
   );
 });
 btnClear.addEventListener("click", clearValues);
@@ -122,3 +109,5 @@ btnAdd.addEventListener("click", add);
 btnSub.addEventListener("click", sub);
 btnMultiply.addEventListener("click", multiply);
 btnDivide.addEventListener("click", divide);
+
+document.addEventListener("keydown", keyboardListener);
