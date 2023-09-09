@@ -1,6 +1,6 @@
 import {
-  intToArray,
-  arrayToInt,
+  intToArray,// REMOVE
+  arrayToInt,// THESE TWO   
   btnNums,
   btnAdd,
   btnSub,
@@ -12,6 +12,15 @@ import {
   currentValue,
   lastValue,
 } from "./constants.js";
+
+/*
+=================================================
+
+TODO: remove the whole array - int system, instead use
+jsut integers, add some methods to ./constants.js
+
+=================================================
+*/
 
 // btnNums[0] = btn with 0 as text 🫠
 var currentArray = [];
