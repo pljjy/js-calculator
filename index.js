@@ -37,20 +37,21 @@ function clearValues() {
 }
 
 function keyboardListener(event) {
-  console.log(`${event.key}, ${!isNaN(event.key)}`);
   if (!isNaN(event.key)) concatToCurrentValue(event.key);
-  if (event.key === "Escape") clearValues();
+  if (event.key === "Escape" || event.key === "c") clearValues();
   if (event.key === "Backspace") deleteLastSymbol();
   if (event.key === "Enter") equals();
   if (event.key === "+") add();
   if (event.key === "-") sub();
   if (event.key === "*") multiply();
   if (event.key === "/") divide();
+  if (event.key === "." && !currentValue.textContent.includes("."))
+      concatToCurrentValue(".");
 }
 
 function equals() {
-  let val1 = parseInt(lastValue.textContent);
-  let val2 = parseInt(currentValue.textContent)
+  let val1 = parseFloat(lastValue.textContent != 0? lastValue.textContent : 0);
+  let val2 = parseFloat(currentValue.textContent)
   let result;
 
   switch (lastOperation.textContent) {
@@ -68,7 +69,8 @@ function equals() {
       lastValue.textContent = "";
       return;
   }
-  result = parseFloat(result).toFixed(2);
+  result = parseFloat(result).toFixed(2) == parseInt(result)? parseInt(result) 
+                                                            : parseFloat(result).toFixed(2);
   lastValue.textContent = val2;
   currentValue.textContent = result;
 }
