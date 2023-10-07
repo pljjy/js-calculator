@@ -9,9 +9,11 @@ const btnMultiply = document.querySelector(".multiply");
 const btnDelete = document.querySelector(".delete");
 const btnClear = document.querySelector(".clear");
 const btnEquals = document.querySelector(".equals");
+const btnDot = document.querySelector(".dot");
 const currentValue = document.querySelector("#current-value");
 const lastValue = document.querySelector("#last-value");
 const lastOperation = document.querySelector("#last-operation");
+
 
 
 export {
@@ -23,6 +25,7 @@ export {
   btnDelete,
   btnClear,
   btnEquals,
+  btnDot,
   currentValue,
   lastValue,
   lastOperation,

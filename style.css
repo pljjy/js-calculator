@@ -75,6 +75,7 @@ body {
   text-transform: uppercase;
   font-size: large;
   font-weight: 500;
+  border: 1px solid black;
 }
 
 .btn:hover {
@@ -87,7 +88,7 @@ body {
 }
 
 .zero {
-  grid-column: span 3;
+  grid-column: span 2;
   width: 95%;
 }
 

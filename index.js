@@ -7,6 +7,7 @@ import {
   btnDelete,
   btnClear,
   btnEquals,
+  btnDot,
   currentValue,
   lastValue,
   lastOperation,
@@ -45,8 +46,8 @@ function keyboardListener(event) {
   if (event.key === "-") sub();
   if (event.key === "*") multiply();
   if (event.key === "/") divide();
-  if (event.key === "." && !currentValue.textContent.includes("."))
-      concatToCurrentValue(".");
+  if (event.key === ".")
+    useDot()
 }
 
 function equals() {
@@ -81,6 +82,11 @@ function performOperation(operation) {
   currentValue.textContent = "";
 }
 
+function useDot(){
+  if(currentValue.textContent !== "" && !currentValue.textContent.includes("."))
+    concatToCurrentValue(".");
+}
+
 function add() {
   performOperation("+");
 }
@@ -103,6 +109,7 @@ btnNums.forEach((element) => {
     concatToCurrentValue(element.textContent)
   );
 });
+
 btnClear.addEventListener("click", clearValues);
 btnDelete.addEventListener("click", deleteLastSymbol);
 btnEquals.addEventListener("click", equals);
@@ -111,5 +118,6 @@ btnAdd.addEventListener("click", add);
 btnSub.addEventListener("click", sub);
 btnMultiply.addEventListener("click", multiply);
 btnDivide.addEventListener("click", divide);
+btnDot.addEventListener("click", useDot);
 
 document.addEventListener("keydown", keyboardListener);
